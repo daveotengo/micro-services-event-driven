@@ -1,0 +1,46 @@
+server:
+  port: 8183
+
+spring:
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+#    vault:
+#      port: 8200
+#      scheme: http
+#      authentication: TOKEN
+#      token: hvs.7xzPUpiDMG9knv90xfymuosW
+#      application-name: order-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    
+
+      
+  datasource:
+    url: jdbc:mysql://localhost:3306/inventory-service?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+    username: root
+    password: Dadapapa4141
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect:  org.hibernate.dialect.MySQL5Dialect
+#    hibernate:
+#      naming:
+#        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/auth/realms/microservices-realm
+
+    
+  application: 
+    name: inventory-service
+    
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}

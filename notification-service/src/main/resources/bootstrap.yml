@@ -1,0 +1,23 @@
+#server:
+#  port: 7676
+#
+#spring:
+#      
+#  application: 
+#    name: notification-service
+#    
+#  cloud:
+#    config:
+#      enabled: true
+#      uri: http://localhost:8888
+#eureka:
+#  instance:
+#    instance-id: ${spring.application.name}:${random.uuid}
+
+    
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: admin
+#    password: admin
+    

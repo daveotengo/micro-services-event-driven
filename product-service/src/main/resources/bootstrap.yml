@@ -1,0 +1,47 @@
+server:
+  port: 0
+  
+spring:
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8888
+#    vault:
+#      port: 8200
+#      scheme: http
+#      authentication: TOKEN
+#      token: hvs.5df8gkAQehcRML74DRpfirKK
+#      application-name: product-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/auth/realms/microservices-realm
+          
+      
+     
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/product-service
+      
+  application:
+    name: product-service
+    
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        
+    
+    

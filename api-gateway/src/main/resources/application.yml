@@ -1,0 +1,70 @@
+#spring:
+#  application:
+#    name: api-gateway
+#  cloud:
+#    gateway:
+#     discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true
+#          
+#     routes:
+#       - id: product-service
+#       - uri: lb://product-service
+#       - predicates: Path=/api/product
+#
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+
+server:
+  port: 8080
+keycloak-client:
+  server-url: http://localhost:8180/auth
+  realm:  microservices-realm
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: spring-cloud-gateway-client
+            client-secret: BwiPK29IOhFngUtuorLo2Gr0h7sviwKN
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
+            scope: openid
+        provider:
+          keycloak:
+            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
+            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
+            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+            user-name-attribute: name
+            user-info-authentication-method: header
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+  cloud:
+    gateway:
+      routes:
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/*
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
+    
+    
+
+
